@@ -1,4 +1,32 @@
 package com.app.examenandroid.presentation.navigation
 
-class NavGraph {
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.app.examenandroid.presentation.screens.detail.CountryDetailScreen
+import com.app.examenandroid.presentation.screens.home.HomeScreen
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun AppNavGraph(navController: NavHostController = rememberNavController()) {
+    NavHost(
+        navController = navController,
+        startDestination = "home",
+    ) {
+        composable("home") {
+            HomeScreen(
+                onCountryClick = { countryName ->
+                    // Por ahora, solo imprime o navega luego
+                    // navController.navigate("detail/$countryName")
+                    println("País seleccionado: $countryName")
+                },
+            )
+        }
+        composable("detail/{countryName}") { backStackEntry ->
+            val countryName = backStackEntry.arguments?.getString("countryName") ?: ""
+            CountryDetailScreen(countryName = countryName)
+        }
+    }
 }
