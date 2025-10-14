@@ -2,23 +2,17 @@ package com.app.examenandroid.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class PaisDto(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("height") val height: Int,
-    @SerializedName("weight") val weight: Int,
-    @SerializedName("sprites") val sprites: SpritesDto,
-    @SerializedName("types") val types: List<TypeDto>,
-) {
-    data class SpritesDto(
-        @SerializedName("front_default") val frontDefault: String,
-    )
+data class CountryDto(
+    @SerializedName("name") val name: NameDto,
+)
 
-    data class TypeDto(
-        @SerializedName("type") val type: TypeInfoDto,
-    ) {
-        data class TypeInfoDto(
-            @SerializedName("name") val name: String,
-        )
-    }
-}
+data class NameDto(
+    @SerializedName("common") val common: String?,
+    @SerializedName("official") val official: String?,
+    @SerializedName("nativeName") val nativeName: Map<String, NativeNameDto>?,
+)
+
+data class NativeNameDto(
+    @SerializedName("official") val official: String?,
+    @SerializedName("common") val common: String?,
+)
