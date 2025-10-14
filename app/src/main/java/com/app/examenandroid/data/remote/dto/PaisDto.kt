@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class CountryDto(
     @SerializedName("name") val name: NameDto,
+    @SerializedName("independent") val independent: Boolean?,
+    @SerializedName("currencies") val currencies: Map<String, CurrencyDto>?,
 )
 
 data class NameDto(
@@ -15,4 +17,9 @@ data class NameDto(
 data class NativeNameDto(
     @SerializedName("official") val official: String?,
     @SerializedName("common") val common: String?,
+)
+
+data class CurrencyDto(
+    @SerializedName("symbol") val symbol: String?,
+    @SerializedName("name") val name: String?,
 )
