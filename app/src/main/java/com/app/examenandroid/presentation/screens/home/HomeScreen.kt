@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -32,6 +33,14 @@ fun HomeScreen(
     onCountryClick: (String) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsState()
+
+    // 🔹 Si hay un país guardado, podríamos navegar directamente o mostrarlo
+    LaunchedEffect(viewModel.lastCountryVisited) {
+        viewModel.lastCountryVisited?.let { savedCountry ->
+            // ✅ Si prefieres navegación automática, descomenta esto:
+            // onCountryClick(savedCountry)
+        }
+    }
 
     Box(
         modifier =
@@ -53,6 +62,17 @@ fun HomeScreen(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
+                    // ✅ Mostrar el último país guardado si existe
+                    if (viewModel.lastCountryVisited != null) {
+                        Text(
+                            text = "Último país visitado: ${viewModel.lastCountryVisited}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(bottom = 8.dp),
+                        )
+                    }
+
+                    // 🔍 Barra de búsqueda
                     OutlinedTextField(
                         value = state.searchQuery,
                         onValueChange = { query -> viewModel.onSearchQueryChanged(query) },
@@ -61,6 +81,7 @@ fun HomeScreen(
                         singleLine = true,
                     )
 
+                    // 📋 Lista de países filtrados
                     CountryList(
                         countries = state.filteredCountries,
                         onCountryClick = onCountryClick,

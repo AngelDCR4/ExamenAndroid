@@ -61,6 +61,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // Datastore
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

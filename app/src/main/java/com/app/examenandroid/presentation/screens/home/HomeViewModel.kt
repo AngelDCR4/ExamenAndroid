@@ -2,12 +2,14 @@ package com.app.examenandroid.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.examenandroid.data.local.DataStoreManager
 import com.app.examenandroid.domain.usecase.GetCountriesUseCase
 import com.app.examenandroid.presentation.common.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,12 +19,20 @@ class HomeViewModel
     @Inject
     constructor(
         private val getCountriesUseCase: GetCountriesUseCase,
+        private val dataStoreManager: DataStoreManager,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(HomeUiState())
         val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
+        var lastCountryVisited: String? = null
+            private set
+
         init {
-            loadCountries()
+            viewModelScope.launch {
+                // Leer país guardado antes de cargar los datos
+                lastCountryVisited = dataStoreManager.lastCountry.first()
+                loadCountries()
+            }
         }
 
         private fun loadCountries() {

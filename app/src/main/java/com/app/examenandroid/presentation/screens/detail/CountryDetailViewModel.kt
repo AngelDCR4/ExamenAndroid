@@ -2,6 +2,7 @@ package com.app.examenandroid.presentation.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.examenandroid.data.local.DataStoreManager
 import com.app.examenandroid.domain.usecase.GetCountryByNameUseCase
 import com.app.examenandroid.presentation.common.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ class CountryDetailViewModel
     @Inject
     constructor(
         private val getCountryByNameUseCase: GetCountryByNameUseCase,
+        private val dataStoreManager: DataStoreManager,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(CountryDetailUiState())
         val uiState: StateFlow<CountryDetailUiState> = _uiState.asStateFlow()
@@ -27,12 +29,21 @@ class CountryDetailViewModel
                     _uiState.update { state ->
                         when (result) {
                             is Result.Loading -> state.copy(isLoading = true)
-                            is Result.Success ->
+
+                            is Result.Success -> {
+                                val country = result.data
+                                if (country != null) {
+                                    viewModelScope.launch {
+                                        dataStoreManager.saveLastCountry(country.commonName)
+                                    }
+                                }
                                 state.copy(
-                                    country = result.data,
+                                    country = country,
                                     isLoading = false,
                                     error = null,
                                 )
+                            }
+
                             is Result.Error ->
                                 state.copy(
                                     error = result.exception.message,

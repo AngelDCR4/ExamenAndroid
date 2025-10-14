@@ -1,11 +1,14 @@
 package com.app.examenandroid.di
 
+import android.content.Context
+import com.app.examenandroid.data.local.DataStoreManager
 import com.app.examenandroid.data.remote.api.PaisApi
 import com.app.examenandroid.data.repository.CountryRepositoryImpl
 import com.app.examenandroid.domain.repository.CountryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,4 +34,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideCountryRepository(api: PaisApi): CountryRepository = CountryRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideDataStoreManager(
+        @ApplicationContext context: Context,
+    ): DataStoreManager = DataStoreManager(context)
 }
