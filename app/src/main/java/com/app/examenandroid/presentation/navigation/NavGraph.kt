@@ -18,15 +18,18 @@ fun AppNavGraph(navController: NavHostController = rememberNavController()) {
         composable("home") {
             HomeScreen(
                 onCountryClick = { countryName ->
-                    // Por ahora, solo imprime o navega luego
-                    // navController.navigate("detail/$countryName")
-                    println("País seleccionado: $countryName")
+                    navController.navigate("detail/$countryName")
                 },
             )
         }
+
         composable("detail/{countryName}") { backStackEntry ->
-            val countryName = backStackEntry.arguments?.getString("countryName") ?: ""
-            CountryDetailScreen(countryName = countryName)
+            val countryName = backStackEntry.arguments?.getString("countryName") ?: return@composable
+
+            CountryDetailScreen(
+                countryName = countryName,
+                onBackClick = { navController.popBackStack() },
+            )
         }
     }
 }
