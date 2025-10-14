@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.examenandroid.presentation.screens.detail.CountryDetailScreen
 import com.app.examenandroid.presentation.screens.home.HomeScreen
+import com.app.examenandroid.presentation.screens.text.AboutScreen
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -20,6 +21,9 @@ fun AppNavGraph(navController: NavHostController = rememberNavController()) {
                 onCountryClick = { countryName ->
                     navController.navigate("detail/$countryName")
                 },
+                onInfoClick = {
+                    navController.navigate("about")
+                },
             )
         }
 
@@ -28,6 +32,12 @@ fun AppNavGraph(navController: NavHostController = rememberNavController()) {
 
             CountryDetailScreen(
                 countryName = countryName,
+                onBackClick = { navController.popBackStack() },
+            )
+        }
+
+        composable("about") {
+            AboutScreen(
                 onBackClick = { navController.popBackStack() },
             )
         }

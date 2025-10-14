@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,14 +32,13 @@ import com.app.examenandroid.domain.model.Country
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onCountryClick: (String) -> Unit,
+    onInfoClick: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsState()
 
     // 🔹 Si hay un país guardado, podríamos navegar directamente o mostrarlo
     LaunchedEffect(viewModel.lastCountryVisited) {
         viewModel.lastCountryVisited?.let { savedCountry ->
-            // ✅ Si prefieres navegación automática, descomenta esto:
-            // onCountryClick(savedCountry)
         }
     }
 
@@ -62,7 +62,6 @@ fun HomeScreen(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    // ✅ Mostrar el último país guardado si existe
                     if (viewModel.lastCountryVisited != null) {
                         Text(
                             text = "Último país visitado: ${viewModel.lastCountryVisited}",
@@ -72,7 +71,6 @@ fun HomeScreen(
                         )
                     }
 
-                    // 🔍 Barra de búsqueda
                     OutlinedTextField(
                         value = state.searchQuery,
                         onValueChange = { query -> viewModel.onSearchQueryChanged(query) },
@@ -81,7 +79,13 @@ fun HomeScreen(
                         singleLine = true,
                     )
 
-                    // 📋 Lista de países filtrados
+                    Button(
+                        onClick = onInfoClick,
+                        modifier = Modifier.align(Alignment.End),
+                    ) {
+                        Text("Acerca de la app")
+                    }
+
                     CountryList(
                         countries = state.filteredCountries,
                         onCountryClick = onCountryClick,
