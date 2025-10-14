@@ -13,6 +13,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,7 +29,7 @@ import com.app.examenandroid.domain.model.Country
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onCountryClick: (String) -> Unit, // Navegación al detalle
+    onCountryClick: (String) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -39,26 +40,32 @@ fun HomeScreen(
                 .padding(16.dp),
     ) {
         when {
-            state.isLoading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                )
-            }
+            state.isLoading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
 
-            state.error != null -> {
+            state.error != null ->
                 Text(
                     text = "Error: ${state.error}",
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.align(Alignment.Center),
                 )
-            }
 
-            state.countries.isNotEmpty() -> {
-                CountryList(
-                    countries = state.countries,
-                    onCountryClick = onCountryClick,
-                )
-            }
+            else ->
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    OutlinedTextField(
+                        value = state.searchQuery,
+                        onValueChange = { query -> viewModel.onSearchQueryChanged(query) },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("Buscar país") },
+                        singleLine = true,
+                    )
+
+                    CountryList(
+                        countries = state.filteredCountries,
+                        onCountryClick = onCountryClick,
+                    )
+                }
         }
     }
 }
