@@ -12,3 +12,6 @@ sealed class Result<out T> {
         val exception: Throwable,
     ) : Result<Nothing>() // Contiene el error
 }
+
+// TIEMPOOOOOOOOOOOOOOOOOO SE ACABO LA CLASE
+// ME TOCA MATERIA DE ALGORITMOS
