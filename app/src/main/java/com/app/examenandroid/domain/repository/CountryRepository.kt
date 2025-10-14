@@ -8,4 +8,6 @@ import com.app.examenandroid.domain.model.Country
 interface CountryRepository {
     // Funcion que  devuelve una lista de paises
     suspend fun getCountries(): List<Country>
+
+    suspend fun getCountryByName(name: String): Country?
 }
