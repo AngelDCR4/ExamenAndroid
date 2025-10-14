@@ -6,4 +6,6 @@ data class HomeUiState(
     val countries: List<Country> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
+    val filteredCountries: List<Country> = emptyList(),
+    val searchQuery: String = "",
 )

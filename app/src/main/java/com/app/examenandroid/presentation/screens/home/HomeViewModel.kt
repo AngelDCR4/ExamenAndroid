@@ -16,10 +16,8 @@ import javax.inject.Inject
 class HomeViewModel
     @Inject
     constructor(
-        // Inyectamos la lista de paises
         private val getCountriesUseCase: GetCountriesUseCase,
     ) : ViewModel() {
-        // Creamos el estado mutable de la UI para saber el estado de la app
         private val _uiState = MutableStateFlow(HomeUiState())
         val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
@@ -27,30 +25,44 @@ class HomeViewModel
             loadCountries()
         }
 
-        // Funcion que carga los paises
         private fun loadCountries() {
             viewModelScope.launch {
                 getCountriesUseCase().collect { result ->
                     _uiState.update { state ->
                         when (result) {
-                            is Result.Loading ->
-                                state.copy(
-                                    isLoading = true,
-                                )
+                            is Result.Loading -> state.copy(isLoading = true)
                             is Result.Success ->
                                 state.copy(
                                     countries = result.data,
+                                    filteredCountries = result.data,
                                     isLoading = false,
                                     error = null,
                                 )
                             is Result.Error ->
                                 state.copy(
-                                    error = result.exception.message,
                                     isLoading = false,
+                                    error = result.exception.message,
                                 )
                         }
                     }
                 }
+            }
+        }
+
+        fun onSearchQueryChanged(query: String) {
+            _uiState.update { state ->
+                val filtered =
+                    if (query.isBlank()) {
+                        state.countries
+                    } else {
+                        state.countries.filter {
+                            it.commonName.contains(query, ignoreCase = true)
+                        }
+                    }
+                state.copy(
+                    searchQuery = query,
+                    filteredCountries = filtered,
+                )
             }
         }
     }
