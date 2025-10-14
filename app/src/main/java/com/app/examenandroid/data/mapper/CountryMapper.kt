@@ -16,9 +16,9 @@ fun CountryDto.toDomain(): Country {
     return Country(
         commonName = name.common ?: "Unknown",
         officialName = name.official ?: "Unknown",
-        nativeNames = nativeNames,
-        independent = independent ?: false,
+        isIndependent = independent ?: false,
         currencyName = currencyName,
         currencySymbol = currencySymbol,
+        flagPng = flags?.png,
     )
 }

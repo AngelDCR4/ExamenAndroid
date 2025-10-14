@@ -6,6 +6,7 @@ data class CountryDto(
     @SerializedName("name") val name: NameDto,
     @SerializedName("independent") val independent: Boolean?,
     @SerializedName("currencies") val currencies: Map<String, CurrencyDto>?,
+    @SerializedName("flags") val flags: FlagsDto?,
 )
 
 data class NameDto(
@@ -22,4 +23,9 @@ data class NativeNameDto(
 data class CurrencyDto(
     @SerializedName("symbol") val symbol: String?,
     @SerializedName("name") val name: String?,
+)
+
+data class FlagsDto(
+    @SerializedName("png") val png: String?,
+    @SerializedName("svg") val svg: String?,
 )
