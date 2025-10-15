@@ -7,18 +7,30 @@ import com.app.examenandroid.domain.repository.CountryRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
-// Se encarga de obtener los datos de la API
+/**
+ * Implementación del repositorio del domain
+ *
+ * Se encarga de obtener los datos desde la API remota,
+ * mapear los modelos de dominio y manejar errores.
+ *
+ */
 @Singleton
 class CountryRepositoryImpl
     @Inject
     constructor(
         private val api: PaisApi,
     ) : CountryRepository {
+        /**
+         * Obtiene la lista de los paises
+         **/
         override suspend fun getCountries(): List<Country> {
             val response = api.getPaises()
             return response.map { it.toDomain() }
         }
 
+        /**
+         * Obtiene la informacion de un pais por nombre
+         **/
         override suspend fun getCountryByName(name: String): Country? =
             try {
                 val response = api.getPaisByName(name)

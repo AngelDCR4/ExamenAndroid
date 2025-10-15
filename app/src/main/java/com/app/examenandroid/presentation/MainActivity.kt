@@ -15,6 +15,11 @@ import com.app.examenandroid.presentation.navigation.AppNavGraph
 import com.app.examenandroid.presentation.theme.ExamenAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Se encarga de darle inicio a la aplicación
+ *
+ * Conecta con NavGraph para moverse entre pantallas
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

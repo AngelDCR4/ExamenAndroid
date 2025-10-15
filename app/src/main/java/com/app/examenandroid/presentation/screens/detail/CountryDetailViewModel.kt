@@ -13,6 +13,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel encargado de manejar los datos del detalle de un país
+ *
+ * Recupera la información del país seleccionado desde la capa de domain
+ * y la lleva a la View
+ * Guarda el último país visitado en las preferencias del usuario
+ */
 @HiltViewModel
 class CountryDetailViewModel
     @Inject

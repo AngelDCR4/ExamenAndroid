@@ -57,7 +57,8 @@ fun AboutScreen(onBackClick: () -> Unit) {
                 Text(
                     text =
                         "Esta aplicacion hace uso de una estructura MVVM + Clean Architecture, esto se debe a que" +
-                            "usamos 3 carpetas principales del proyecto Data / Domain / Presentation" +
+                            "usamos 3 carpetas principales del proyecto Data / Domain / Presentation. Ademas hacemos uso" +
+                            "de ViewModels para poder manejar una interfaz que interactue con el dominio de la app" +
                             "La interfaz que domino es el mapper que es la estandarización o el intermediario" +
                             "entre el model y el dto" +
                             "\n\n Para poder guardar la ultima bandera que se visualizo hacemos uso de la DataStore" +

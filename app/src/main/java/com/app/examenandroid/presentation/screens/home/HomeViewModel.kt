@@ -14,6 +14,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel de la pantalla Home
+ *
+ * Maneja la logica de presentación para cargar la lista de países,
+ * aplicar el filtro de búsqueda, presentar el boton de acerca de la app
+ * y recuperar el último país visitado guardado
+ * mediante DataStore.
+ *
+ */
 @HiltViewModel
 class HomeViewModel
     @Inject

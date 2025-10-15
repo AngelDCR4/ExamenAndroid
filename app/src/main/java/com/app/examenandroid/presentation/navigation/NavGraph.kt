@@ -9,6 +9,13 @@ import com.app.examenandroid.presentation.screens.detail.CountryDetailScreen
 import com.app.examenandroid.presentation.screens.home.HomeScreen
 import com.app.examenandroid.presentation.screens.text.AboutScreen
 
+/**
+ * Se encarga de la navegación entre las distintas pantallas
+ *
+ * Pantalla de Home
+ * Pantalla de Detail
+ * Pantalla de About
+ */
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun AppNavGraph(navController: NavHostController = rememberNavController()) {
